@@ -4,9 +4,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "dev-internet": "cloudflared tunnel --url http://localhost:3000",
+    "serve-internet": "cloudflared tunnel --url http://localhost:5000"
   },
   "dependencies": {
+    "jsqr": "^1.4.0",
     "qrcode": "^1.5.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"

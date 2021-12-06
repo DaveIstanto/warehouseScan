@@ -4,11 +4,11 @@ import { SizeButton } from "./components/SizeButton"
 function App() {
   return (
     <div>
-      {/* <CameraBox /> */}
-      <div>
+      <CameraBox selectedSize="S"/>
+      {/* <div>
         <SizeButton/>
         
-      </div>
+      </div> */}
     </div>
   )
 }

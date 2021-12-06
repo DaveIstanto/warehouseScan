@@ -1,9 +1,14 @@
 import { CameraBox } from "./components/CameraBox"
+import { SizeButton } from "./components/SizeButton"
 
 function App() {
   return (
     <div>
-      <CameraBox />
+      {/* <CameraBox /> */}
+      <div>
+        <SizeButton/>
+        
+      </div>
     </div>
   )
 }

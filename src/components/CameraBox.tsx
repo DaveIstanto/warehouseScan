@@ -1,103 +1,119 @@
-import { useEffect, useRef, useState } from 'react'
-import jsQR, { QRCode } from 'jsqr'
+import { useEffect, useRef, useState } from "react";
+import jsQR, { QRCode } from "jsqr";
 
 const captureImage = (videoRef: any, handler: Function) => {
-  let video: HTMLVideoElement = videoRef.current
+  let video: HTMLVideoElement = videoRef.current;
 
-  let canvas: HTMLCanvasElement = document.createElement('canvas')
-  canvas.width = video.videoWidth
-  canvas.height = video.videoHeight
+  let canvas: HTMLCanvasElement = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
 
-  let ctx = canvas.getContext('2d')
+  let ctx = canvas.getContext("2d");
 
-  ;(ctx as CanvasRenderingContext2D).drawImage(
+  (ctx as CanvasRenderingContext2D).drawImage(
     video,
     0,
     0,
     canvas.width,
-    canvas.height,
-  )
+    canvas.height
+  );
   let imageData = (ctx as CanvasRenderingContext2D).getImageData(
     0,
     0,
     canvas.width,
-    canvas.height,
-  )
+    canvas.height
+  );
 
-  const code = jsQR(imageData.data, canvas.width, canvas.height)
+  const code = jsQR(imageData.data, canvas.width, canvas.height);
 
-  handler(code)
-}
+  handler(code);
+};
 
-const getColorForQRData = (qrData: QRCode | null, selectedSize: string) => {
+const MATCH_VALUE = "COCOK";
+const NOT_MATCH_VALUE = "TIDAK COCOK";
+const SEARCHING_VALUE = "MENCARI";
+
+const borderColorValue: { [key: string]: string } = {
+  [MATCH_VALUE]: "border-green-400",
+  [NOT_MATCH_VALUE]: "border-red-400",
+  [SEARCHING_VALUE]: "border-yellow-400",
+};
+
+const getValueForQRDataMatching = (
+  qrData: QRCode | null,
+  selectedSize: string
+) => {
   if (qrData) {
     if (qrData.data === selectedSize) {
-      return "green"
+      return MATCH_VALUE;
     } else {
-      return "red"
+      return NOT_MATCH_VALUE;
     }
-  }  else {
-    return "yellow"
+  } else {
+    return SEARCHING_VALUE;
   }
-
-}
+};
 
 interface CameraBoxProps {
-  selectedSize: string
+  selectedSize: string;
 }
 
-export const CameraBox = (props:CameraBoxProps) => {
-  const videoRef = useRef<any>()
-  const intervalRef = useRef<any>()
-  const [qrData, setQrData] = useState<QRCode | null>(null)
+export const CameraBox = (props: CameraBoxProps) => {
+  const videoRef = useRef<any>();
+  const intervalRef = useRef<any>();
+  const [matchStatus, setMatchStatus] = useState<string>(SEARCHING_VALUE);
 
-  useEffect(() => {
-
-  }, [qrData])
+  const { selectedSize } = props;
 
   useEffect(() => {
     const enableStream = async () => {
       // Add error handling later
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: 'environment',
+          facingMode: "environment",
           width: {
             min: 300,
             ideal: 350,
-            max: 500
+            max: 500,
           },
           height: {
             min: 300,
             ideal: 350,
-            max: 500
-          }
+            max: 500,
+          },
         },
-      })
-      videoRef.current.srcObject = stream
-      videoRef.current.play()
-    }
+      });
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+    };
 
     try {
-      enableStream()
+      enableStream();
 
       intervalRef.current = setInterval(() => {
-        captureImage(videoRef, (code: QRCode | null) => {setQrData(code)})
-      }, 1000)
+        captureImage(videoRef, (code: QRCode | null) => {
+          setMatchStatus(getValueForQRDataMatching(code, selectedSize));
+        });
+      }, 1000);
     } catch (err) {
-      console.error(`unable to enable stream: ${err}`)
+      console.error(`unable to enable stream: ${err}`);
     }
 
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
-    }
-  }, [videoRef, setQrData])
+    };
+  }, [videoRef, setMatchStatus]);
 
   return (
     <div>
-      <video ref={videoRef} playsInline/>
-      {getColorForQRData(qrData, props.selectedSize)}
+      <video
+        className={`border-4 ${borderColorValue[matchStatus]}`}
+        ref={videoRef}
+        playsInline
+      />
+      <div>{matchStatus}</div>
     </div>
-  )
-}
+  );
+};

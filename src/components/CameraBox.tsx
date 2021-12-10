@@ -113,7 +113,7 @@ export const CameraBox = (props: CameraBoxProps) => {
         ref={videoRef}
         playsInline
       />
-      <div>{matchStatus}</div>
+      <div className="text-center">{matchStatus}</div>
     </div>
   );
 };

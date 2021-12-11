@@ -107,8 +107,6 @@ export const CameraBox = (props: CameraBoxProps) => {
     };
   }, [videoRef, setMatchStatus]);
 
-  if (selectedSize === NO_SELECTION) return <div>Mohon pilih ukuran</div>;
-
   return (
     <div>
       <video
@@ -116,7 +114,11 @@ export const CameraBox = (props: CameraBoxProps) => {
         ref={videoRef}
         playsInline
       />
-      <div className="">{matchStatus}</div>
+      {selectedSize === NO_SELECTION ? (
+        <div>Mohon Pilih Ukuran</div>
+      ) : (
+        <div className="">{matchStatus}</div>
+      )}
     </div>
   );
 };

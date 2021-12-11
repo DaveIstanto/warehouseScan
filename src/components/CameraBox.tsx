@@ -108,7 +108,6 @@ export const CameraBox = (props: CameraBoxProps) => {
     if (selectedSize) {
       intervalRef.current = setInterval(() => {
         captureImage(videoRef, (code: QRCode | null) => {
-          console.log({ selectedSize });
           setMatchStatus(getValueForQRDataMatching(code, selectedSize));
         });
       }, 1000);
@@ -116,17 +115,15 @@ export const CameraBox = (props: CameraBoxProps) => {
   }, [selectedSize]);
 
   return (
-    <div>
+    <div className="flex flex-col justify-center">
       <video
         className={`border-4 ${borderColorValue[matchStatus]}`}
         ref={videoRef}
         playsInline
       />
-      {selectedSize === NO_SELECTION ? (
-        <div>Mohon Pilih Ukuran</div>
-      ) : (
-        <div className="">{matchStatus}</div>
-      )}
+      <div className="text-center">
+        {selectedSize === NO_SELECTION ? "Mohon Pilih Ukuran" : matchStatus}
+      </div>
     </div>
   );
 };

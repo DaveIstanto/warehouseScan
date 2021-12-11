@@ -90,12 +90,6 @@ export const CameraBox = (props: CameraBoxProps) => {
 
     try {
       enableStream();
-
-      intervalRef.current = setInterval(() => {
-        captureImage(videoRef, (code: QRCode | null) => {
-          setMatchStatus(getValueForQRDataMatching(code, selectedSize));
-        });
-      }, 1000);
     } catch (err) {
       console.error(`unable to enable stream: ${err}`);
     }
@@ -106,6 +100,20 @@ export const CameraBox = (props: CameraBoxProps) => {
       }
     };
   }, [videoRef, setMatchStatus]);
+
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    if (selectedSize) {
+      intervalRef.current = setInterval(() => {
+        captureImage(videoRef, (code: QRCode | null) => {
+          console.log({ selectedSize });
+          setMatchStatus(getValueForQRDataMatching(code, selectedSize));
+        });
+      }, 1000);
+    }
+  }, [selectedSize]);
 
   return (
     <div>

@@ -32,6 +32,7 @@ const captureImage = (videoRef: any, handler: Function) => {
 const MATCH_VALUE = "COCOK";
 const NOT_MATCH_VALUE = "TIDAK COCOK";
 const SEARCHING_VALUE = "MENCARI";
+const NO_SELECTION = "";
 
 const borderColorValue: { [key: string]: string } = {
   [MATCH_VALUE]: "border-green-400",
@@ -106,6 +107,8 @@ export const CameraBox = (props: CameraBoxProps) => {
     };
   }, [videoRef, setMatchStatus]);
 
+  if (selectedSize === NO_SELECTION) return <div>Mohon pilih ukuran</div>;
+
   return (
     <div>
       <video
@@ -113,7 +116,7 @@ export const CameraBox = (props: CameraBoxProps) => {
         ref={videoRef}
         playsInline
       />
-      <div className="text-center">{matchStatus}</div>
+      <div className="">{matchStatus}</div>
     </div>
   );
 };

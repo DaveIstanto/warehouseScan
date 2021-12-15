@@ -29,9 +29,9 @@ const captureImage = (videoRef: any, handler: Function) => {
   handler(code);
 };
 
-const MATCH_VALUE = "COCOK";
-const NOT_MATCH_VALUE = "TIDAK COCOK";
-const SEARCHING_VALUE = "MENCARI";
+const MATCH_VALUE = "OK";
+const NOT_MATCH_VALUE = "Tidak Cocok";
+const SEARCHING_VALUE = "Mencari...";
 const NO_SELECTION = "";
 
 const borderColorValue: { [key: string]: string } = {
@@ -117,11 +117,11 @@ export const CameraBox = (props: CameraBoxProps) => {
   return (
     <div className="flex flex-col justify-center">
       <video
-        className={`border-4 ${borderColorValue[matchStatus]}`}
+        className={`border-8 ${borderColorValue[matchStatus]}`}
         ref={videoRef}
         playsInline
       />
-      <div className="text-center">
+      <div className="text-center font-bold text-xl py-4">
         {selectedSize === NO_SELECTION ? "Mohon Pilih Ukuran" : matchStatus}
       </div>
     </div>

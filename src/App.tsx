@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CameraBox } from "./components/CameraBox";
 import { SizeButton } from "./components/SizeButton";
 
@@ -10,17 +10,19 @@ function App() {
   return (
     <div>
       <CameraBox selectedSize={selectedSize} />
-      {SIZES.map((size, idx) => (
-        <div key={idx}>
-          <SizeButton
-            selected={size === selectedSize}
-            size={size}
-            onClick={(size: string) => {
-              setSelectedSize(size);
-            }}
-          />
-        </div>
-      ))}
+      <div className="flex-1 flex-col justify-center items-center px-2">
+        {SIZES.map((size, idx) => (
+          <div key={idx}>
+            <SizeButton
+              selected={size === selectedSize}
+              size={size}
+              onClick={(size: string) => {
+                setSelectedSize(size);
+              }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

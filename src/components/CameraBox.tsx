@@ -55,6 +55,7 @@ const getValueForQRDataMatching = (
   }
 };
 
+const EVALUTE_INTERVAL = 500;
 interface CameraBoxProps {
   selectedSize: string;
 }
@@ -110,7 +111,7 @@ export const CameraBox = (props: CameraBoxProps) => {
         captureImage(videoRef, (code: QRCode | null) => {
           setMatchStatus(getValueForQRDataMatching(code, selectedSize));
         });
-      }, 1000);
+      }, EVALUTE_INTERVAL);
     }
   }, [selectedSize]);
 

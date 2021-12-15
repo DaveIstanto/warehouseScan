@@ -31,7 +31,7 @@ const captureImage = (videoRef: any, handler: Function) => {
 
 const MATCH_VALUE = "OK";
 const NOT_MATCH_VALUE = "Tidak Cocok";
-const SEARCHING_VALUE = "Mencari...";
+const SEARCHING_VALUE = "Mencari";
 const NO_SELECTION = "";
 
 const borderColorValue: { [key: string]: string } = {
@@ -122,7 +122,11 @@ export const CameraBox = (props: CameraBoxProps) => {
         playsInline
       />
       <div className="text-center font-bold text-xl py-4">
-        {selectedSize === NO_SELECTION ? "Mohon Pilih Ukuran" : matchStatus}
+        {selectedSize === NO_SELECTION
+          ? "Mohon Pilih Ukuran"
+          : matchStatus === SEARCHING_VALUE
+          ? `Mencari QR Ukuran ${selectedSize}...`
+          : matchStatus}
       </div>
     </div>
   );

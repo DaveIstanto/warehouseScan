@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import jsQR, { QRCode } from "jsqr";
+import okAudio from "../assets/ok.wav";
+import notOkAudio from "../assets/not ok.wav";
+import useSound from "use-sound";
 
 const captureImage = (videoRef: any, handler: Function) => {
   let video: HTMLVideoElement = videoRef.current;
@@ -65,6 +68,9 @@ export const CameraBox = (props: CameraBoxProps) => {
   const intervalRef = useRef<any>();
   const [matchStatus, setMatchStatus] = useState<string>(SEARCHING_VALUE);
 
+  const [okPlay] = useSound(okAudio);
+  const [notOkPlay] = useSound(notOkAudio);
+
   const { selectedSize } = props;
 
   useEffect(() => {
@@ -114,6 +120,14 @@ export const CameraBox = (props: CameraBoxProps) => {
       }, EVALUTE_INTERVAL);
     }
   }, [selectedSize]);
+
+  useEffect(() => {
+    if (matchStatus === MATCH_VALUE) {
+      okPlay();
+    } else if (matchStatus === NOT_MATCH_VALUE) {
+      notOkPlay();
+    }
+  }, [matchStatus]);
 
   return (
     <div className="flex flex-col justify-center">

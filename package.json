@@ -9,11 +9,17 @@
     "serve-internet": "cloudflared tunnel --url http://localhost:5000"
   },
   "dependencies": {
+    "@types/howler": "^2.2.4",
     "firebase": "^9.6.1",
+    "google-translate-tts": "^0.4.0-dev",
+    "howler": "^2.2.3",
     "jsqr": "^1.4.0",
+    "node-gtts": "^2.0.2",
     "qrcode": "^1.5.0",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "react-speech": "^1.0.2",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

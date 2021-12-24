@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import jsQR, { QRCode } from "jsqr";
 import okAudio from "../assets/ok.wav";
-import notOkAudio from "../assets/not ok.wav";
+import notOkAudio from "../assets/not matching.wav";
 import useSound from "use-sound";
 
 const captureImage = (videoRef: any, handler: Function) => {
